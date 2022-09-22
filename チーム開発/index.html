@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チーム開発まとめシート</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header>
+        <div><img src="./" alt=""></div>
+    </header>
+    <main>
+        <section class="first-sectoin">
+            <h2>導入</h2>
+            <p>Springbboot を使用するときに「application.properties」に下記の情報を記載して設定する</p>
+            <div>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">#  データベースに接続するための設定</li>
+                    <li style="background-color:#EEF;">spring.datasource.url=jdbc:postgresql://localhost:5433/jpa_test</li>
+                    <li style="background-color:#EFF;">spring.datasource.username=postgres</li>
+                    <li style="background-color:#EEF;">spring.datasource.password=123456</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;"># 自動テーブル作成に関連する設定</li>
+                    <li style="background-color:#EFF;">spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true</li>
+                    <li style="background-color:#EEF;">spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect</li>
+                    <li style="background-color:#EFF;">spring.jpa.hibernate.ddl-auto=create</li>
+                    </ul></code>
+            </div>
+        </section>
+        <section>
+            <h2>基本操作</h2>
+            <div>
+                <h2>Entityの作成</h2>
+                <div>
+                    <code>
+                    <ul>
+                    <li style="background-color:#EFF;">@Data</li>
+                    <li style="background-color:#EEF;">@NoArgsConstructor</li>
+                    <li style="background-color:#EFF;">@AllArgsConstructor</li>
+                    <li style="background-color:#EEF;">@RequiredArgsConstructor</li>
+                    <li style="background-color:#EFF;">@Entity</li>
+                    <li style="background-color:#EEF;">@Table(name=<font style="color:brown;">"admins"</font>)</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">public class AdminEntity {</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@Id</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name=<font style="color:brown;">"admin_id"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@GeneratedValue(strategy = GenerationType.AUTO)</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;private Long adminid;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name=<font style="color:brown;">"admin_name"</font>)</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;private String adminName;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name=<font style="color:brown;">"admin_email"</font>)</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;private String adminEmail;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name=<font style="color:brown;">"password"</font>)</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;private String password; </li>
+                    <li style="background-color:#EFF;">}</li>
+                    </ul></code>
+                </div>
+                <p>Spring Data JPA では、テーブルに対応する Entity クラスを作成する必要があります。 Entity クラスには、@Entityを付与します。</p>
+                <p>@Tableは、テーブル名とクラス名が同じであれば省略できます。 @Columnも同様に、テーブルのフィールド名とクラスのフィールド名が同じであれば省略できます。</p>
+                <p>キー項目には@Idを付与します。</p>
+            </div>
+            <div>
+                <h2>Repositoryの作成</h2>
+                <div>
+                    <code>
+                        <ul>
+                        <li style="background-color:#EFF;">@Repository</li>
+                        <li style="background-color:#EEF;">public interface AdminDao extends JpaRepository&lt;AdminEntity, Long&gt; {</li>
+                        <li style="background-color:#EFF;"></li>
+                        <li style="background-color:#EEF;">}</li>
+                        </ul>
+                    </code>
+                </div>
+                <p>DB 操作用の Repository インターフェースを作成します。</p>
+                <p>@Repositoryを付与し、JpaRepository<>を継承します。 JpaRepository<>のジェネリクスには、対象となる Entity クラスと、キー項目の型を指定します。</p>
+            </div>
+            <div>
+                <h2>Serviceの作成</h2>
+                <div>
+                    <code>
+                        <ul>
+                        <li style="background-color:#EFF;">@Service</li>
+                        <li style="background-color:#EEF;">public class AdminService {</li>
+                        <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                        <li style="background-color:#EFF;">}</li>
+                        </ul></code>
+                </div>
+                <p>DAO層のRepositoryを使用して、コントローラークラスが使える機能（サービス）を実現します。</p>
+                <p>@Serviceアノテーションを使って、Service層のクラスであることをSpringBootに伝えます。</p>
+            </div>
+        </section>
+        <section>
+            <h2>結果の取得方法の例　管理者の登録、編集、削除、一覧表示の方法</h2>
+            <div>
+                <h2>まずは、Entityを使用してDBとマッピングをしましょう</h2>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">package template.team.model.Entity;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import javax.persistence.Column;</li>
+                    <li style="background-color:#EEF;">import javax.persistence.Entity;</li>
+                    <li style="background-color:#EFF;">import javax.persistence.GeneratedValue;</li>
+                    <li style="background-color:#EEF;">import javax.persistence.GenerationType;</li>
+                    <li style="background-color:#EFF;">import javax.persistence.Id;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import javax.persistence.Table;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import lombok.AllArgsConstructor;</li>
+                    <li style="background-color:#EEF;">import lombok.Data;</li>
+                    <li style="background-color:#EFF;">import lombok.NoArgsConstructor;</li>
+                    <li style="background-color:#EEF;">import lombok.NonNull;</li>
+                    <li style="background-color:#EFF;">import lombok.RequiredArgsConstructor;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">@Data</li>
+                    <li style="background-color:#EFF;">@NoArgsConstructor</li>
+                    <li style="background-color:#EEF;">@AllArgsConstructor</li>
+                    <li style="background-color:#EFF;">@RequiredArgsConstructor</li>
+                    <li style="background-color:#EEF;">@Entity</li>
+                    <li style="background-color:#EFF;">@Table(name="admins")</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">public class AdminEntity {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Id</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name="admin_id")</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@GeneratedValue(strategy = GenerationType.AUTO)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private Long adminId;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name="admin_name")</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private String adminName;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name="admin_email")</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private String adminEmail;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@NonNull</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Column(name="password")</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private String password;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp; </li>
+                    <li style="background-color:#EEF;">}</li>
+                    </ul></code>
+            </div>
+            <p>ここでは、DBのテーブルとマッピングをさせています。本来のテーブルは、こんな感じです。</p>
+            <p>今回は、DB名とEntity名が違うので@Tableを使って手動でDBのテーブルとマッピングさせています。</p>
+            <p>カラムも同じです。メンバ変数名とカラム名が異なるため、手動でマッピングさせています。</p>
+        </section>
+        <section>
+            <h2>DAOの作成</h2>
+            <div>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">import org.springframework.data.jpa.repository.JpaRepository;</li>
+                    <li style="background-color:#EFF;">import org.springframework.stereotype.Repository;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import template.team.model.Entity.AdminEntity;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">@Repository</li>
+                    <li style="background-color:#EEF;">public interface AdminDao extends JpaRepository&lt;AdminEntity, Long&gt; {</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;AdminEntity save(AdminEntity adminentity);</li>
+                    <li style="background-color:#EEF;">}</li>
+                    <li style="background-color:#EFF;"></li>
+                    </ul></code>
+            </div>
+            <p>続いてDBとのやり取りをするDaoを作成します。</p>
+            <p>対象となる Entity クラス、今回だとAdminEntity、キー項目の型がLongになるのでその内容をジェネリクス内に記載します。</p>
+        </section>
+        <section>
+            <h2>Serviceクラスの作成</h2>
+            <div><code>
+                <ul>
+                <li style="background-color:#EFF;">package template.team.model.Service;</li>
+                <li style="background-color:#EEF;"></li>
+                <li style="background-color:#EFF;">import java.util.List;</li>
+                <li style="background-color:#EEF;">import java.util.Optional;</li>
+                <li style="background-color:#EFF;"></li>
+                <li style="background-color:#EEF;">import org.springframework.beans.factory.annotation.Autowired;</li>
+                <li style="background-color:#EFF;">import org.springframework.stereotype.Service;</li>
+                <li style="background-color:#EEF;"></li>
+                <li style="background-color:#EFF;">import template.team.model.Dao.AdminDao;</li>
+                <li style="background-color:#EEF;">import template.team.model.Entity.AdminEntity;</li>
+                <li style="background-color:#EFF;"></li>
+                <li style="background-color:#EEF;">@Service</li>
+                <li style="background-color:#EFF;">public class AdminService {</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Autowired</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private AdminDao adminDao;</li>
+                <li style="background-color:#EEF;"></li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//一覧取得</font></li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;public List&lt;AdminEntity&gt; findAll() {</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return adminDao.findAll();</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                <li style="background-color:#EFF;"></li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//内容を保存</font></li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public void insert(String adminName,String adminEmail,String password) {</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminDao.save(new AdminEntity(adminName,adminEmail,password));</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                <li style="background-color:#EEF;"></li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//内容をupdate</font></li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;public void update(Long adminId,String adminName,String adminEmail,String password) {</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminDao.save(new AdminEntity(adminId,adminName,adminEmail,password));</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                <li style="background-color:#EFF;"></li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//削除</font></li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public void delete(Long adminId) {</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminDao.deleteById(adminId);</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                <li style="background-color:#EEF;"></li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//idを見つける</font></li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;public Optional&lt;AdminEntity&gt; selectById(Long adminId) {</li>
+                <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return adminDao.findById(adminId);</li>
+                <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                <li style="background-color:#EFF;"></li>
+                <li style="background-color:#EEF;">}</li>
+                </ul></code></div>
+            <p>ここでは、先ほど作成したAdminDaoを使って、コントローラークラスが使用できる機能を作成します。</p>
+            <p>AdminServiceは,adminsテーブルにアクセスする必要があり、adminsテーブルにアクセスするには、AdminDAOが必要です。</p>
+            <p>@Autowiredアノテーションをつけて、自動的にインターフェースを実装して、インスタンス化させて、Service層でAdminDaoを使えるようにします </p>
+        </section>
+        <section>
+            <h2>コントローラークラスの作成です。</h2>
+            <div>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">package template.team.Controller;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import java.util.List;</li>
+                    <li style="background-color:#EEF;">import java.util.Optional;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">import org.springframework.beans.factory.annotation.Autowired;</li>
+                    <li style="background-color:#EFF;">import org.springframework.stereotype.Controller;</li>
+                    <li style="background-color:#EEF;">import org.springframework.ui.Model;</li>
+                    <li style="background-color:#EFF;">import org.springframework.web.bind.annotation.GetMapping;</li>
+                    <li style="background-color:#EEF;">import org.springframework.web.bind.annotation.PostMapping;</li>
+                    <li style="background-color:#EFF;">import org.springframework.web.bind.annotation.RequestParam;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">import template.team.model.Entity.AdminEntity;</li>
+                    <li style="background-color:#EEF;">import template.team.model.Service.AdminService;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">@Controller</li>
+                    <li style="background-color:#EFF;">public class AdminController {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@Autowired</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;private AdminService adminService;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//新規登録画面を表示</font></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@GetMapping(<font style="color:brown;">"/register"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public String getRegisterPage() {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"admin_register_view.html"</font>;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//登録内容を保存</font></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@PostMapping(<font style="color:brown;">"adminCreate"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public String register(@RequestParam String adminName,@RequestParam String adminEmail,String password, Model model) {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminService.insert(adminName, adminEmail, password);</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"redirect:/register"</font>;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//一覧を表示</font></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@GetMapping(<font style="color:brown;">"/adminAll"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public String getAdminAll(Model model) {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;AdminEntity&gt;adminlist = adminService.findAll();</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.addAttribute(<font style="color:brown;">"adminlist"</font>,adminlist);</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"admin_all_view.html"</font>;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//編集画面へ遷移</font></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@PostMapping(<font style="color:brown;">"/edit"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public String getEditpage(@RequestParam Long adminId,Model model) {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optional&lt;AdminEntity&gt; adminNumber = adminService.selectById(adminId);</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AdminEntity adminEntity = adminNumber.get();</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.addAttribute(<font style="color:brown;">"adminId"</font>,adminEntity.getAdminId());</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.addAttribute(<font style="color:brown;">"adminName"</font>,adminEntity.getAdminName());</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.addAttribute(<font style="color:brown;">"adminEmail"</font>,adminEntity.getAdminEmail());</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model.addAttribute(<font style="color:brown;">"password"</font>,adminEntity.getPassword());</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"admin_edit_view.html"</font>;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//編集内容を更新</font></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;@PostMapping(<font style="color:brown;">"/update"</font>)</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;public String updateAdmin(@RequestParam Long adminId, @RequestParam String adminName,@RequestParam String adminEmail,@RequestParam String password) {</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminService.update(adminId,adminName, adminEmail, password);</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"redirect:/adminAll"</font>;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;<font style="color:green;font-style:italic;">//内容を削除</font></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;@PostMapping(<font style="color:brown;">"/delete"</font>)</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;public String deleteAdmin(@RequestParam Long adminId) {</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;adminService.delete(adminId);</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return <font style="color:brown;">"redirect:/adminAll"</font>;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;}</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">}</li>
+                    <li style="background-color:#EEF;"></li>
+                    </ul></code>
+            </div>
+        </section>
+        <section>
+            <div>
+                <h2>登録画面</h2>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">&lt;!DOCTYPE html&gt;</li>
+                    <li style="background-color:#EEF;">&lt;html lang=<font style="color:brown;">"en"</font>&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;head&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset=<font style="color:brown;">"UTF-8"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=<font style="color:brown;">"X-UA-Compatible"</font> content=<font style="color:brown;">"IE=edge"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name=<font style="color:brown;">"viewport"</font> content=<font style="color:brown;">"width=device-width, initial-scale=1.0"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document&lt;/title&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/reset.css}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/style.css}"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font> rel=<font style="color:brown;">"stylesheet"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Gochi+Hand&amp;family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&lt;/head&gt;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&lt;body&gt;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;main&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"main-inner"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;section class=<font style="color:brown;">"register-section"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;管理者登録画面&lt;/h2&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form action=<font style="color:brown;">"/adminCreate"</font> method=<font style="color:brown;">"post"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;AdminName&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"adminName"</font> value=<font style="color:brown;">""</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;AdminEmail&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"adminEmail"</font> value=<font style="color:brown;">""</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;Password&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"password"</font> value=<font style="color:brown;">""</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button id=<font style="color:brown;">"register"</font> class=<font style="color:brown;">"edit_disable"</font>&gt;登録&lt;/button&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class=<font style="color:brown;">"delete"</font> onclick=<font style="color:brown;">"history.back();"</font> type=<font style="color:brown;">"button"</font>&gt;戻る&lt;/button&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src=<font style="color:brown;">"https://code.jquery.com/jquery-3.6.0.min.js"</font> integrity=<font style="color:brown;">"sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="</font> crossorigin=<font style="color:brown;">"anonymous"</font>&gt;&lt;/script&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&lt;/body&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;/html&gt;</li>
+                    </ul></code>
+            </div>
+            <div>
+                <h2>一覧画面</h2>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">&lt;!DOCTYPE html&gt;</li>
+                    <li style="background-color:#EEF;">&lt;html lang=<font style="color:brown;">"en"</font>&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;head&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset=<font style="color:brown;">"UTF-8"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=<font style="color:brown;">"X-UA-Compatible"</font> content=<font style="color:brown;">"IE=edge"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name=<font style="color:brown;">"viewport"</font> content=<font style="color:brown;">"width=device-width, initial-scale=1.0"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document&lt;/title&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/reset.css}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/style.css}"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font> rel=<font style="color:brown;">"stylesheet"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Gochi+Hand&amp;family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&lt;/head&gt;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&lt;body&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;main&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"main-inner"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"genre"</font>&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"genre-register__button"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a th:href=<font style="color:brown;">"@{/register}"</font> class=<font style="color:brown;">"btn btn--orange btn--radius"</font>&gt;管理者新規登録&lt;/a&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;table&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;管理者名&lt;/th&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;メールアドレス&lt;/th&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;編集&lt;/th&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;th&gt;削除&lt;/th&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;tr th:each=<font style="color:brown;">"admin:${adminlist}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td th:text=<font style="color:brown;">"${admin.adminName}"</font>&gt;&lt;/td&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td th:text=<font style="color:brown;">"${admin.adminEmail}"</font>&gt;&lt;/td&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt; &lt;form th:action=<font style="color:brown;">"@{/edit}"</font> method=<font style="color:brown;">"post"</font>&gt;&lt;input type=<font style="color:brown;">"hidden"</font> name=<font style="color:brown;">"adminId"</font>  th:value=<font style="color:brown;">"${admin.adminId}"</font>&gt;&lt;button class=<font style="color:brown;">"edit"</font>&gt;編集&lt;/button&gt;&lt;/form&gt;&lt;/td&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;td&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form th:action=<font style="color:brown;">"@{/delete}"</font> method=<font style="color:brown;">"post"</font>&gt;&lt;input type=<font style="color:brown;">"hidden"</font> name=<font style="color:brown;">"adminId"</font> th:value=<font style="color:brown;">"${admin.adminId}"</font>&gt;&lt;button class=<font style="color:brown;">"delete"</font>&gt;削除&lt;/button&gt;&lt;/form&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/td&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/tr&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/table&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;</li>
+                    <li style="background-color:#EEF;">&lt;/body&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;/html&gt;</li>
+                    </ul></code>
+            </div>
+            <div>
+                <h2>編集画面</h2>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">&lt;!DOCTYPE html&gt;</li>
+                    <li style="background-color:#EEF;">&lt;html lang=<font style="color:brown;">"en"</font>&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;head&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset=<font style="color:brown;">"UTF-8"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta http-equiv=<font style="color:brown;">"X-UA-Compatible"</font> content=<font style="color:brown;">"IE=edge"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta name=<font style="color:brown;">"viewport"</font> content=<font style="color:brown;">"width=device-width, initial-scale=1.0"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;Document&lt;/title&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/reset.css}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"stylesheet"</font> th:href=<font style="color:brown;">"@{./css/style.css}"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font> rel=<font style="color:brown;">"stylesheet"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.googleapis.com"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link rel=<font style="color:brown;">"preconnect"</font> href=<font style="color:brown;">"https://fonts.gstatic.com"</font> crossorigin&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;link href=<font style="color:brown;">"https://fonts.googleapis.com/css2?family=Gochi+Hand&amp;family=Kiwi+Maru:wght@300;400;500&amp;display=swap"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&lt;/head&gt;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&lt;body&gt;</li>
+                    <li style="background-color:#EEF;"></li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;main&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"main-inner"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;section class=<font style="color:brown;">"register-section"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h2&gt;管理者編集画面&lt;/h2&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;form action=<font style="color:brown;">"/update"</font> method=<font style="color:brown;">"post"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;AdminName&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"adminName"</font> th:value=<font style="color:brown;">"${adminName}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;AdminEmail&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"adminEmail"</font> th:value=<font style="color:brown;">"${adminEmail}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div&gt;Password&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"text"</font> name=<font style="color:brown;">"password"</font> th:value=<font style="color:brown;">"${password}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class=<font style="color:brown;">"register-section-details_flex"</font>&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;input type=<font style="color:brown;">"hidden"</font> name=<font style="color:brown;">"adminId"</font> th:value=<font style="color:brown;">"${adminId}"</font>&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button id=<font style="color:brown;">"register"</font> class=<font style="color:brown;">"edit_disable"</font>&gt;登録&lt;/button&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;button class=<font style="color:brown;">"delete"</font> onclick=<font style="color:brown;">"history.back();"</font> type=<font style="color:brown;">"button"</font>&gt;戻る&lt;/button&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;/main&gt;</li>
+                    <li style="background-color:#EEF;">&nbsp;&nbsp;&nbsp;&nbsp;&lt;script src=<font style="color:brown;">"https://code.jquery.com/jquery-3.6.0.min.js"</font> integrity=<font style="color:brown;">"sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="</font> crossorigin=<font style="color:brown;">"anonymous"</font>&gt;&lt;/script&gt;</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;</li>
+                    <li style="background-color:#EEF;">&lt;/body&gt;</li>
+                    <li style="background-color:#EFF;"></li>
+                    <li style="background-color:#EEF;">&lt;/html&gt;</li>
+                    </ul></code>
+            </div>
+        </section>
+        <section>
+            <h2>クエリ実装</h2>
+            <div>
+                <h3>基本クエリ</h3>
+                <table>
+                    <tr>
+                        <th>メソッド</th>
+                        <th>引数</th>
+                        <th>戻り値</th>
+                        <th>説明</th>
+                    </tr>
+                    <tr>
+                        <th><span>findAll()</span></th>
+                        <th></th>
+                        <th><span>List<T></span></th>
+                        <th>全てのレコードを取得</th>
+                    </tr>
+                    <tr>
+                        <th><span>findById()</span></th>
+                        <th>キー</th>
+                        <th><span>Optional<T></span></th>
+                        <th>キーに該当するレコードを取得</th>
+                    </tr>
+                    <tr>
+                        <th><span>getById()</span></th>
+                        <th>キー</th>
+                        <th><span>T</span></th>
+                        <th>キーに該当するレコードを取得</th>
+                    </tr>
+                    <tr>
+                        <th><span>count()</span></th>
+                        <th></th>
+                        <th><span>long</span></th>
+                        <th>レコード数を取得</th>
+                    </tr>
+                    <tr>
+                        <th><span>existsById()</span></th>
+                        <th>キー</th>
+                        <th><span>boolean</span></th>
+                        <th>キーに該当するレコードが存在するかを取得</th>
+                    </tr>
+                    <tr>
+                        <th><span>save()</span></th>
+                        <th>T</th>
+                        <th><span>T</span></th>
+                        <th>キーが存在する場合は更新、存在しない場合は登録</th>
+                    </tr>
+                    <tr>
+                        <th><span>saveAll()</span></th>
+                        <th>List<T>
+                        </th>
+                        <th><span>List<T></span></th>
+                        <th>Entity の数だけsave()を実行</th>
+                    </tr>
+                    <tr>
+                        <th><span>deleteById()()</span></th>
+                        <th>キー</th>
+                        <th></th>
+                        <th>キーに該当するレコードを削除</th>
+                    </tr>
+                    <tr>
+                        <th><span>deleteAllById()</span></th>
+                        <th>List<キー>
+                        </th>
+                        <th></th>
+                        <th>キー の数だけdeleteById()を実行</th>
+                    </tr>
+                </table>>
+            </div>
+        </section>
+        <section>
+            <h2>カスタムクエリ</h2>
+            <div>
+                <p>例えばadminNameを条件として検索し、レコードを取得したいとします。 これを実現するためには、Repository に以下のメソッドを追加します。</p>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">@Repository</li>
+                    <li style="background-color:#EEF;">public interface UserRepository extends JpaRepository&lt;AdminEntity, Long&gt;{</li>
+                    <li style="background-color:#EFF;">&nbsp;&nbsp;List&lt;AdminEntity&gt; findByAdminName(String adminName);</li>
+                    <li style="background-color:#EEF;">}</li>
+                    </ul></code>
+                <p>あとは必要な箇所でこのメソッドを実行するだけです。</p>
+                <code>
+                    <ul>
+                    <li style="background-color:#EFF;">List&lt;User&gt; users = repository.findByAdminName(<font style="color:brown;">"太郎"</font>);</li>
+                    </ul></code>
+            </div>
+            <h2>知っておきたい条件</h2>
+            <p>次に条件を設定します。 上記では、findByAdminNameとすることで「adminNameと一致する」という条件を設定しています。 等価条件以外は、以下のキーワードを用いて設定できます。
+                複数フィールドを条件とする場合は、メソッドで指定したフィールド順序とパラメーターの順序を同じにします。</p>
+            <div>
+                <table>
+                    <tr>
+                        <th>キーワード</th>
+                        <th>メソッドサンプル</th>
+                        <th>クエリ</th>
+                    </tr>
+                    <tr>
+                        <th><span>Not</span></th>
+                        <th>><span>findByNameNot(String name)</span></th>
+                        <th>><span>... where name <> ?1</span></th>
+                    </tr>
+                    <tr>
+                        <th><span>And</span></th>
+                        <th>><span>findByNameAndAge(String name, int age)</span></th>
+                        <th>><span>... where name = ?1 and age = ?2</span></th>
+                    </tr>
+                    <tr>
+                        <th><span>Or</span></th>
+                        <th>><span>findByNameOrAge(String name, int age)</span></th>
+                        <th>><span>... where name = ?1 or age = ?2</span></th>
+                    </tr>
+                    <tr>
+                        <th><span>LessThan</span></th>
+                        <th>><span>findByAgeLessThan(int age)</span></th>
+                        <th>><span>... where age < ?1</span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><span>LessThanEqual</span></th>
+                        <th>><span>findByAgeLessThanEqual(int age)</span></th>
+                        <th>><span>... where age <= ?1</span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><span>GreaterThan</span></th>
+                        <th>><span>findByAgeGreaterThan(int age)</span></th>
+                        <th>><span>... where age > ?1</span></th>
+                    </tr>
+                    <tr>
+                        <th><span>GreaterThanEqual</span></th>
+                        <th>><span>findByAgeGreaterThanEqual(int age)</span></th>
+                        <th>><span>... where age <= ?1</span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><span>Between</span></th>
+                        <th>><span>findByAgeBetween(int min, int max)</span></th>
+                        <th>><span>... where age between ?1 and ?2</span></th>
+                    </tr>
+                    <tr>
+                        <th><span>Like</span></th>
+                        <th>><span>findByNameLike(String name)</span></th>
+                        <th>><span>... where name like ?1</span></th>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <p>最後に取得する結果に対して手を加えます。 以下のキーワードを使用することで、並び替えや取得レコード数を指定することができます。</p>
+                <table>
+                    <tr>
+                        <th>キーワード</th>
+                        <th>メソッドサンプル</th>
+                        <th>説明</th>
+                    </tr>
+                    <tr>
+                        <th>OrderBy</th>
+                        <th>findByNameOrderByAgeDesc(String name)</th>
+                        <th>レコード順序の指定</th>
+                    </tr>
+                    <tr>
+                        <th>Top, First</th>
+                        <th>findTop3ByName(String name)</th>
+                        <th>指定した数だけ上位のレコードを取得（Top、Firstは同義）</th>
+                    </tr>
+                    <tr>
+                        <th>Distinct</th>
+                        <th>findDistinctByName(String name)</th>
+                        <th>同一結果のレコードの集約</th>
+                    </tr>
+                </table>
+            </div>
+        </section>
+        <section>
+            <h2>SQLを書きたい場合</h2>
+            <div>
+                <div>
+                    <p>カスタムクエリ以外の方法でテーブルにアクセスする方法もあります</p>
+                    <p>@Queryは、Repositoryのメソッドに付与します。</p>
+                </div>
+
+                <div>
+                    <code>
+                    <ul>
+                    <li style="background-color:#EFF;">@Query(<font style="color:brown;">"select u from User u where u.age = ?1"</font>)</li>
+                    <li style="background-color:#EEF;">List&lt;User&gt; myFindByAge(int age);</li>
+                    </ul></code>
+                </div>
+
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <p>メソッドパラメーターに@Paramを付与することで、名前付きパラメーターを使用することができます。</p>
+                    </div>
+                    <code>
+                        <ul>
+                        <li style="background-color:#EFF;">@Query(<font style="color:brown;">"select u from User u where u.age = :age"</font>)</li>
+                        <li style="background-color:#EEF;">List&lt;User&gt; myFindByAge(@Param(<font style="color:brown;">"age"</font>) int age);</li>
+                        </ul></code>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
