@@ -47,37 +47,31 @@
     <main>
         <article>
             <h2>文房具一覧</h2>
-            <div class="search-contents">
-                <form action="">
+            <div class="search-contents-list"> 
                     <ul class="category">
                         <li><select name="categoryId" id="categoryId">
                                 <option value="">鉛筆</option>
                                 <option value="">消しゴム</option>
                                 <option value="">ハサミ</option>
                             </select></li>
-                        <li><label for="search">検索:<input type="text" name="itemName" id="itemName"></label></li>
+                        <li><input type="text" name="itemName" id="itemName" placeholder="商品名を入力してください"></li>
                     </ul>
                     <div class="search-button"><button>検索</button></div>
-                  
-                </form>
             </div>
-
+            <section class="register-item">
+                <div class="all-view-register__button">
+                    <a href="" class="btn btn--orange btn--radius">商品登録</a>
+                </div>
+            </section>
             <ul class="products">
                 <li><a href="#"><img src="./images/stationary_img/eraser.png" alt="">
-                    <p>消しゴム</p><br><p>1000円</p></a>
-                </li>
-                <li><a href="#"><img src="./images/stationary_img/hasami.png" alt="">
-                    <p>ハサミ</p></a>
-                </li>
-                <li><a href="#"><img src="./images/stationary_img/pencil.png" alt="">
-                    <p>鉛筆</p></a>
-                </li>
-                <li><a href="#"><img src="./images/stationary_img/stamp.png" alt="">
-                    <p>印鑑</p></a>
+                        <p>消しゴム</p><br>
+                        <p>1000円</p>
+                    </a>
                 </li>
             </ul>
         </article>
-       
+
     </main>
     <footer>
         <div>

@@ -186,6 +186,41 @@ article h2 {
     padding: 0.5rem 1rem;
 }
 
+.search-contents-list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3rem;
+}
+/*----------商品登録ボタン--------------*/
+.register-item{
+    text-align: center;
+    padding-bottom: 3rem;
+}
+/*----------------登録ボタン---------------------*/
+.btn--orange,
+a.btn--orange {
+    color: #fff;
+    background-color: #eb6100;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 5px 0 #aaaaaa;
+    transition: 0.3s;
+    font-family: Kiwi Maru;
+
+}
+
+.btn--orange:hover,
+a.btn--orange:hover {
+    background-color: #ffefcc;
+    color: black;
+    transform: translateY(3px);
+    text-decoration: none;
+    box-shadow: 0 2px 0 #aaaaaa;
+}
+
+a.btn--radius {
+    border-radius: 3rem;
+}
 /*----------商品一覧--------------*/
 .products {
     display: flex;
@@ -434,6 +469,37 @@ footer div {
     text-align: center;
     color: #fff;
 
+}
+/*-------------------------------------------------------
+                        ジャンル一覧
+---------------------------------------------------------*/
+.genre {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+.genre-register__button {
+    text-align: right;
+}
+
+.genre table {
+    width: 100%;
+    margin: 2rem auto;
+    text-align: center;
+    border: 1px solid gray;
+}
+
+.genre th, .genre td {
+    border: 1px solid gray;
+    text-align: center;
+    padding: 1rem 0.5rem;
+
+}
+
+.genre th {
+    background-color: #71c7c8;
+    color: #fff;
 }
 
 @media screen and (min-width: 768px) {
